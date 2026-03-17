@@ -25,6 +25,15 @@ The **Customer Support Expert System (CSES)** is a Knowledge-Based System that m
 
 The system is designed for small-to-medium businesses — online retail stores, telecom providers, service companies — where handling high volumes of customer queries manually is time-consuming and error-prone.
 
+## Current Implementation Status
+
+The project currently includes a working baseline:
+
+- A Prolog knowledge base with starter issue categories, keywords, and solution rules.
+- A Python CLI interface that queries Prolog through `pyswip`.
+- Escalation fallback when no confident issue match is found.
+- Initial documentation for the knowledge engineering process.
+
 ### Key Capabilities
 
 - **Problem Diagnosis** — Matches customer input to known issues using logical inference.
@@ -73,6 +82,7 @@ A report on the **Knowledge Engineering** process — how real-world customer su
 │   └── main.py                  # Python UI / inference interface
 ├── docs/
 │   └── knowledge_engineering.md # Knowledge acquisition report
+├── requirements.txt             # Python dependencies
 ├── README.md
 └── LICENSE
 ```
@@ -105,14 +115,22 @@ git clone https://github.com/<your-org>/DCIT313-Group-ProImpactNova-Engineers-Cu
 cd DCIT313-Group-ProImpactNova-Engineers-CustomerSupportExpertSystem
 
 # Install Python dependencies
-pip install pyswip
+pip install -r requirements.txt
 ```
 
 ### Running the System
 
 ```bash
-cd interface
-python main.py
+python interface/main.py
+```
+
+### Recommended Windows Run Commands
+
+Use the project virtual environment interpreter to avoid Python version mismatch:
+
+```powershell
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe interface\main.py
 ```
 
 ---

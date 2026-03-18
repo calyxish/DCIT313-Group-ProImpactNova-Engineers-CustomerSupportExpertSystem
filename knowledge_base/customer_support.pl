@@ -1,7 +1,6 @@
 % Customer Support Expert System knowledge base
 % Expanded and improved by Samuel Kofi Ntem Amankwah
-
-
+1
 % KNOWN SUPPORT ISSUES
 
 issue(login_issue).

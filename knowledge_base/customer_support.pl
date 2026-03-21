@@ -193,7 +193,7 @@ resolve_issue(unknown_issue, Message) :-
 % MAIN ENTRY POINT
 
 
-recommendation(Text, Message) :-
+recommendation(Text, Message, Issue) :-
     diagnose(Text, Issue),
     resolve_issue(Issue, Message).
 

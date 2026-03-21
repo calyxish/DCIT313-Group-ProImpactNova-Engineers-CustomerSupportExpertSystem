@@ -135,7 +135,7 @@ pip install -r requirements.txt
 > Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 > ```
 
-### Running the System
+### Running the System (CLI)
 
 ```bash
 python interface/main.py
@@ -144,6 +144,23 @@ python interface/main.py
 **Windows (using the virtual environment interpreter directly):**
 ```powershell
 .venv\Scripts\python.exe interface\main.py
+```
+
+### Running the Web Interface
+
+```bash
+python interface/web_app.py
+```
+
+Then open your browser at:
+
+```text
+http://127.0.0.1:5000
+```
+
+**Windows (using the virtual environment interpreter directly):**
+```powershell
+.venv\Scripts\python.exe interface\web_app.py
 ```
 
 ---

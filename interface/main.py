@@ -62,7 +62,7 @@ def normalize_text(text: str) -> str:
 
 def solve_by_text(engine: Prolog, raw_text: str) -> str:
     normalized = normalize_text(raw_text)
-    query = f"recommendation({normalized}, Message)"
+    query = f"recommendation({normalized}, Message, _)"
     result = list(engine.query(query, maxresult=1))
     if not result:
         return "No recommendation found. Please escalate to human support."

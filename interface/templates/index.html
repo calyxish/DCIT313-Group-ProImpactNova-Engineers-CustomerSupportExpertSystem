@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Support Expert System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">Analyzing Issue...</div>
+  </div>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-icon">PIN</div>
+      <h1>Pro Impact Nova</h1>
+      <p>Customer Support Expert System</p>
+    </header>
+
+    <main class="main-content">
+      <div class="card">
+        <div class="tabs">
+          <button type="button" class="tab-btn {% if active_mode != 'text' %}active{% endif %}" onclick="switchTab('issue')"> 
+            Select Category
+          </button>
+          <button type="button" class="tab-btn {% if active_mode == 'text' %}active{% endif %}" onclick="switchTab('text')">
+            Describe Problem
+          </button>
+        </div>
+
+        <div id="tab-issue" class="form-section {% if active_mode == 'text' %}hidden{% endif %}">
+          <form method="post" class="stack">
+            <input type="hidden" name="mode" value="issue" />
+            <div class="form-group">
+              <label for="issue">Choose a common issue from the list below:</label>
+              <div class="select-wrapper">
+                <select id="issue" name="issue">
+                  <option value="">-- Click to select an issue --</option>
+                  {% for item in issue_cards %}
+                    <option
+                      value="{{ item.atom }}"
+                      data-preview="{{ item.preview | e }}"
+                      {% if selected_issue == item.atom %}selected{% endif %}
+                    >
+                      {{ item.label }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div id="tab-text" class="form-section {% if active_mode != 'text' %}hidden{% endif %}">
+          <form method="post" class="stack">
+            <input type="hidden" name="mode" value="text" />
+            <div class="form-group">
+              <label for="complaint">Describe the issue in your own words:</label>
+              <textarea id="complaint" name="complaint" rows="5" placeholder="Example: I cannot login to my account because I forgot the password...">{{ complaint }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze Complaint</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Result Section -->
+      <div class="result-area">
+        <!-- Preview from Dropdown (Client-side) -->
+        <div id="issue-preview" class="card result-card {% if not selected_issue %}hidden{% endif %}">
+          <div class="card-header">
+            <h2>Recommended Solution</h2>
+            <span class="badge">Quick Guide</span>
+          </div>
+          <div class="card-body">
+             <p id="issue-preview-text">{{ selected_issue_preview }}</p>
+          </div>
+        </div>
+
+        <!-- Result from Text Analysis (Server-side) -->
+        {% if recommendation and active_mode == 'text' %}
+        <div class="card result-card analysis-result">
+           <div class="card-header">
+            <h2>Analysis Result</h2>
+            {% if diagnosis_issue_label %}
+              <span class="badge">{{ diagnosis_issue_label }}</span>
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <p>{{ recommendation }}</p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>&copy; 2026 Pro Impact Nova Engineers. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function switchTab(mode) {
+      // Update buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Update content
+      document.getElementById('tab-issue').classList.add('hidden');
+      document.getElementById('tab-text').classList.add('hidden');
+      document.getElementById('tab-' + mode).classList.remove('hidden');
+      
+      // Special handling: if switching to text, hide the dropdown preview if it exists
+      if (mode === 'text') {
+        document.getElementById('issue-preview').classList.add('hidden');
+        document.querySelector('.analysis-result') ? document.querySelector('.analysis-result').style.display = 'block' : null;
+      } else {
+        // If switching back to issue, show preview if item selected
+        const issueSelect = document.getElementById("issue");
+        if (issueSelect && issueSelect.value) {
+            document.getElementById('issue-preview').classList.remove('hidden');
+            // Hide text analysis
+            const analysisCard = document.querySelector('.analysis-result');
+            if (analysisCard) analysisCard.style.display = 'none';
+        }
+      }
+    }
+
+    // Preview Logic
+    (function () {
+      const issueSelect = document.getElementById("issue");
+      const previewBox = document.getElementById("issue-preview");
+      const previewText = document.getElementById("issue-preview-text");
+      const previewCardBody = document.querySelector("#issue-preview .card-body");
+      // Add local loader container
+      let loader = document.createElement('div');
+      loader.className = 'local-loader hidden';
+      loader.innerHTML = '<div class="spinner-sm"></div><span>Retrieving Solution...</span>';
+      if (previewCardBody) previewCardBody.appendChild(loader);
+
+      if (!issueSelect || !previewBox || !previewText) {
+        return;
+      }
+
+      function updatePreview(event) {
+        const isUserAction = event && event.type === 'change';
+        const selectedOption = issueSelect.options[issueSelect.selectedIndex];
+        const preview = selectedOption ? selectedOption.getAttribute("data-preview") : "";
+        
+        // Hide analysis result immediately if user changes category
+        const analysisCard = document.querySelector('.analysis-result');
+        if (analysisCard && isUserAction) analysisCard.style.display = 'none';
+
+        if (preview && issueSelect.value) {
+          previewBox.classList.remove("hidden");
+          
+          if (isUserAction) {
+             // Simulate "Thinking" Delay for user selection
+             previewText.style.display = 'none';
+             loader.classList.remove('hidden');
+             loader.style.display = 'flex';
+             
+             setTimeout(() => {
+                 loader.style.display = 'none';
+                 previewText.textContent = preview;
+                 previewText.style.display = 'block';
+                 
+                 // Re-trigger fade animation
+                 previewBox.style.animation = 'none';
+                 previewBox.offsetHeight; /* trigger reflow */
+                 previewBox.style.animation = 'fadeIn 0.4s ease-out forwards';
+             }, 600);
+          } else {
+             // Instant load (on page refresh / initial load)
+             previewText.textContent = preview;
+             previewText.style.display = 'block';
+             loader.style.display = 'none';
+          }
+        } else {
+          // Hide if no selection
+          if (!issueSelect.value) {
+             previewBox.classList.add("hidden");
+          }
+        }
+      }
+
+      issueSelect.addEventListener("change", updatePreview);
+      // Run once on load to handle pre-selected state
+      // check if we are in issue mode
+      if (!document.getElementById('tab-issue').classList.contains('hidden')) {
+          updatePreview(); // Call without event for instant load
+      }
+    })();
+
+    // Loading State
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', function() {
+        // Only show loader if form is valid/submitting
+        const complaint = document.getElementById('complaint');
+        if (this.querySelector('input[value="text"]') && complaint && !complaint.value.trim()) {
+           // Don't show loader for empty text submission (let HTML5 validation or server handle it, but UI experience is better if we don't flash)
+           return; 
+        }
+        
+        const loader = document.getElementById('loadingOverlay');
+        if (loader) {
+          loader.classList.add('active');
+          loader.style.opacity = '1'; // Force verify
+        }
+      });
+    });
+  </script>
+</body>
+</html>

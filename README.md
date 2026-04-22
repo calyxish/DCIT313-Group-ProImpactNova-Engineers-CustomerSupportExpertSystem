@@ -7,15 +7,15 @@
 
 ## Group Members
 
-| #   | Name                                  |
-| --- | ------------------------------------- |
-| 1   | Ishmael Affum Kwakye *(Group Leader)* |
-| 2   | Samuel Kofi Ntem Amankwah             |
-| 3   | Prince Boateng                        |
-| 4   | Christian Agyapong                    |
-| 5   | Michael Asante-Arhin                  |
-| 6   | Jeremiah Kwadwo Wiafe                 |
-| 7   | Dzikum Isaac                          |
+| #   | Name                                  | GitHub Username       | Student ID |
+| --- | ------------------------------------- | --------------------- | ---------- |
+| 1   | Ishmael Affum Kwakye *(Group Leader)* | calyxish              | 22032451   |
+| 2   | Samuel Kofi Ntem Amankwah             | Sammy-157             | 22017217   |
+| 3   | Prince Boateng                        | —                     | 22017084   |
+| 4   | Christian Agyapong                    | ChristianAgyapong     | 22054189   |
+| 5   | Michael Asante-Arhin                  | Icon-1k               | 22241078   |
+| 6   | Jeremiah Kwadwo Wiafe                 | kojowiafe-dev         | 22151311   |
+| 7   | Dzikum Isaac                          | —                     | 22045685   |
 
 ---
 

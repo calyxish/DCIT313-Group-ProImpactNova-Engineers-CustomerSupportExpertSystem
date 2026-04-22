@@ -11,11 +11,11 @@
 | --- | ------------------------------------- | --------------------- | ---------- |
 | 1   | Ishmael Affum Kwakye *(Group Leader)* | calyxish              | 22032451   |
 | 2   | Samuel Kofi Ntem Amankwah             | Sammy-157             | 22017217   |
-| 3   | Prince Boateng                        | —                     | 22017084   |
+| 3   | Prince Boateng                        | princejbr             | 22017084   |
 | 4   | Christian Agyapong                    | ChristianAgyapong     | 22054189   |
 | 5   | Michael Asante-Arhin                  | Icon-1k               | 22241078   |
 | 6   | Jeremiah Kwadwo Wiafe                 | kojowiafe-dev         | 22151311   |
-| 7   | Dzikum Isaac                          | —                     | 22045685   |
+| 7   | Dzikum Isaac                          | nisaacdz              | 22045685   |
 
 ---
 
@@ -283,6 +283,8 @@ This project follows a strict branching workflow:
 - `dev` — default development branch. All work targets `dev` via Pull Request.
 
 To contribute: create a feature or bugfix branch off `dev`, push it, open a PR to `dev`, and tag the Group Leader as reviewer.
+
+When work starts from a GitHub issue, include the issue number in the branch name or PR title so the review history stays easy to follow.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
